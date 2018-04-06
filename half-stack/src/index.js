@@ -33,7 +33,7 @@ const Sisalto = (props) => {
 }
 
 const Yhteensa = (props) => {
-  const lkm = props.lkm
+  const lkm = props.osat.reduce((acc, osa) => acc + osa.tehtavia, 0)
 
   return (
     <p>yhteensä {lkm} tehtävää</p>
@@ -42,24 +42,26 @@ const Yhteensa = (props) => {
 
 const App = () => {
   const kurssi = 'Half Stack -sovelluskehitys'
-  const osa1 = {
-    nimi: 'Reactin perusteet',
-    tehtavia: 10
-  }
-  const osa2 = {
-    nimi: 'Tiedonvälitys propseilla',
-    tehtavia: 7
-  }
-  const osa3 = {
-    nimi: 'Komponenttien tila',
-    tehtavia: 14
-  }
+  const osat = [
+    {
+      nimi: 'Reactin perusteet',
+      tehtavia: 10
+    },
+    {
+      nimi: 'Tiedonvälitys propseilla',
+      tehtavia: 7
+    },
+    {
+      nimi: 'Komponenttien tila',
+      tehtavia: 14
+    }
+  ]
 
   return (
     <div>
       <Otsikko name={kurssi} />
-      <Sisalto osat={[osa1, osa2, osa3]} />
-      <Yhteensa lkm={osa1.tehtavia + osa2.tehtavia + osa3.tehtavia} />
+      <Sisalto osat={osat} />
+      <Yhteensa osat={osat} />
     </div>
   )
 }
