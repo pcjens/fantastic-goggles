@@ -9,6 +9,15 @@ const Otsikko = (props) => {
     )
 }
 
+const Osa = (props) => {
+  const osa = props.osa
+  const tehtavat = props.tehtavat
+
+  return (
+      <p>{osa} {tehtavat}</p>
+  )
+}
+
 const Sisalto = (props) => {
   const osa1 = props.osat[0][0]
   const osa2 = props.osat[1][0]
@@ -19,9 +28,9 @@ const Sisalto = (props) => {
 
   return (
     <div>
-      <p>{osa1} {tehtavia1}</p>
-      <p>{osa2} {tehtavia2}</p>
-      <p>{osa3} {tehtavia3}</p>
+      <Osa osa={osa1} tehtavat={tehtavia1} />
+      <Osa osa={osa2} tehtavat={tehtavia2} />
+      <Osa osa={osa3} tehtavat={tehtavia3} />
     </div>
   )
 }
