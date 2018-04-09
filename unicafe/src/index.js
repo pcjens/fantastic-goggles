@@ -22,7 +22,7 @@ const Button = (props) => {
 
 const Statistic = (props) => {
   const name = props.name
-  const count = props.stats.state[props.name]
+  const count = props.stats.getStat(props.name)
 
   return (
     <p>{name} {count}</p>
@@ -37,6 +37,8 @@ const Statistics = (props) => {
       <Statistic name="hyvä" stats={stats} />
       <Statistic name="neutraali" stats={stats} />
       <Statistic name="huono" stats={stats} />
+      <Statistic name="keskiarvo" stats={stats} />
+      <Statistic name="positiivisia" stats={stats} />
     </div>
   )
 }
@@ -48,6 +50,26 @@ class App extends React.Component {
       "hyvä": 0,
       "neutraali": 0,
       "huono": 0
+    }
+  }
+
+  getCount() {
+    return this.state["hyvä"] + this.state["neutraali"] + this.state["huono"]
+  }
+
+  getAvg() {
+    const sum = this.state["hyvä"] - this.state["huono"]
+    const count = this.getCount()
+    return sum / count
+  }
+
+  getStat(stat) {
+    if (stat === "keskiarvo") {
+      return this.getAvg().toFixed(1)
+    } else if (stat === "positiivisia") {
+      return (this.state["hyvä"] / this.getCount() * 100).toFixed(1) + " %"
+    } else {
+      return this.state[stat]
     }
   }
 
