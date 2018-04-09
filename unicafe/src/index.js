@@ -32,15 +32,21 @@ const Statistic = (props) => {
 const Statistics = (props) => {
   const stateHolder = props.stateHolder
 
-  return (
-    <div>
-      <Statistic name="hyvä" stateHolder={stateHolder} />
-      <Statistic name="neutraali" stateHolder={stateHolder} />
-      <Statistic name="huono" stateHolder={stateHolder} />
-      <Statistic name="keskiarvo" stateHolder={stateHolder} />
-      <Statistic name="positiivisia" stateHolder={stateHolder} />
-    </div>
-  )
+  if (stateHolder.statsExist()) {
+    return (
+      <div>
+        <Statistic name="hyvä" stateHolder={stateHolder} />
+        <Statistic name="neutraali" stateHolder={stateHolder} />
+        <Statistic name="huono" stateHolder={stateHolder} />
+        <Statistic name="keskiarvo" stateHolder={stateHolder} />
+        <Statistic name="positiivisia" stateHolder={stateHolder} />
+      </div>
+    )
+  } else {
+    return (
+      <p>Yhtään palautetta ei ole annettu.</p>
+    )
+  }
 }
 
 class App extends React.Component {
@@ -71,6 +77,10 @@ class App extends React.Component {
     } else {
       return this.state[stat]
     }
+  }
+
+  statsExist() {
+    return this.getCount() > 0
   }
 
   render() {
