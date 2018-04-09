@@ -1,11 +1,45 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+const MostVoted = (props) => {
+  const mostVotedSelection = (votes) => {
+    let highestIndex = -1
+    let highestVotes = 0
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i] > highestVotes) {
+        highestVotes = votes[i]
+        highestIndex = i
+      }
+    }
+    return highestIndex
+  }
+
+  const mvs = mostVotedSelection(props.votes)
+  const mostVotes = props.votes[mvs]
+  const mostVotedAnecdote = props.anecdotes[mvs]
+
+  if (mostVotes > 0) {
+    return (
+      <div>
+        <h2>Anecdote with most votes:</h2>
+        <p>{mostVotedAnecdote}</p>
+        <p>has {mostVotes} votes</p>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+      </div>
+    )
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 0
+      selected: 0,
+      votes: []
     }
   }
 
@@ -13,13 +47,32 @@ class App extends React.Component {
     this.setState({selected: Math.floor(Math.random() * anecdotes.length)})
   }
 
+  vote = (selection) => () => {
+    this.setState((prevState) => {
+      const newState = {...prevState}
+      if (newState.votes[selection] === undefined) {
+        newState.votes[selection] = 0
+      }
+      newState.votes[selection]++
+      return newState
+    })
+  }
+
+
   render() {
-    const anecdote = this.props.anecdotes[this.state.selected]
+    const selection = this.state.selected
+    const anecdotes = this.props.anecdotes
+    const selectedAnecdote = anecdotes[selection]
+    const votes = this.state.votes
+    const selectedVotes = this.state.votes[selection] || 0
 
     return (
       <div>
-        <p>{anecdote}</p>
+        <p>{selectedAnecdote}</p>
+        <p>has {selectedVotes} votes</p>
+        <button onClick={this.vote(selection)}>vote</button>
         <button onClick={this.reselect}>next anecdote</button>
+        <MostVoted votes={votes} anecdotes={anecdotes}/>
       </div>
     )
   }
