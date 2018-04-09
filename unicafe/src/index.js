@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const incrementState = (name, stats) => {
+const incrementState = (name, stateHolder) => {
   return () => {
-    stats.setState((prevState) => {
+    stateHolder.setState((prevState) => {
       const newState = {...prevState}
       newState[name]++
       return newState
@@ -13,7 +13,7 @@ const incrementState = (name, stats) => {
 
 const Button = (props) => {
   const name = props.name
-  const onClick = incrementState(name, props.stats)
+  const onClick = incrementState(name, props.stateHolder)
 
   return (
     <button onClick={onClick}>{name}</button>
@@ -22,23 +22,23 @@ const Button = (props) => {
 
 const Statistic = (props) => {
   const name = props.name
-  const count = props.stats.getStat(props.name)
+  const statistic = props.stateHolder.getStatFormatted(props.name)
 
   return (
-    <p>{name} {count}</p>
+    <p>{name} {statistic}</p>
   )
 }
 
 const Statistics = (props) => {
-  const stats = props.stats
+  const stateHolder = props.stateHolder
 
   return (
     <div>
-      <Statistic name="hyvä" stats={stats} />
-      <Statistic name="neutraali" stats={stats} />
-      <Statistic name="huono" stats={stats} />
-      <Statistic name="keskiarvo" stats={stats} />
-      <Statistic name="positiivisia" stats={stats} />
+      <Statistic name="hyvä" stateHolder={stateHolder} />
+      <Statistic name="neutraali" stateHolder={stateHolder} />
+      <Statistic name="huono" stateHolder={stateHolder} />
+      <Statistic name="keskiarvo" stateHolder={stateHolder} />
+      <Statistic name="positiivisia" stateHolder={stateHolder} />
     </div>
   )
 }
@@ -63,7 +63,7 @@ class App extends React.Component {
     return sum / count
   }
 
-  getStat(stat) {
+  getStatFormatted(stat) {
     if (stat === "keskiarvo") {
       return this.getAvg().toFixed(1)
     } else if (stat === "positiivisia") {
@@ -77,12 +77,12 @@ class App extends React.Component {
     return (
       <div>
         <h2>Anna palautetta</h2>
-        <Button name="hyvä" stats={this} />
-        <Button name="neutraali" stats={this} />
-        <Button name="huono" stats={this} />
+        <Button name="hyvä" stateHolder={this} />
+        <Button name="neutraali" stateHolder={this} />
+        <Button name="huono" stateHolder={this} />
 
         <h2>Statistiikka</h2>
-        <Statistics stats={this} />
+        <Statistics stateHolder={this} />
       </div>
     )
   }
