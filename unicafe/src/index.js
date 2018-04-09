@@ -25,7 +25,7 @@ const Statistic = (props) => {
   const statistic = props.stateHolder.getStatFormatted(props.name)
 
   return (
-    <p>{name} {statistic}</p>
+    <tr><td>{name}</td><td>{statistic}</td></tr>
   )
 }
 
@@ -34,13 +34,15 @@ const Statistics = (props) => {
 
   if (stateHolder.statsExist()) {
     return (
-      <div>
-        <Statistic name="hyvä" stateHolder={stateHolder} />
-        <Statistic name="neutraali" stateHolder={stateHolder} />
-        <Statistic name="huono" stateHolder={stateHolder} />
-        <Statistic name="keskiarvo" stateHolder={stateHolder} />
-        <Statistic name="positiivisia" stateHolder={stateHolder} />
-      </div>
+      <table>
+        <tbody>
+          <Statistic name="hyvä" stateHolder={stateHolder} />
+          <Statistic name="neutraali" stateHolder={stateHolder} />
+          <Statistic name="huono" stateHolder={stateHolder} />
+          <Statistic name="keskiarvo" stateHolder={stateHolder} />
+          <Statistic name="positiivisia" stateHolder={stateHolder} />
+        </tbody>
+      </table>
     )
   } else {
     return (
